@@ -5,10 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.arkadroid.model.Ball;
 import com.mygdx.arkadroid.model.Brick;
 
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-
 public class testPolygons {
 
     public static void execute() {

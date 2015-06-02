@@ -13,15 +13,6 @@ import com.mygdx.arkadroid.model.Settings;
 
 public class RecordsScreen extends ScreenAdapter {
 
-    private Arkadroid game;
-    private OrthographicCamera guiCam;
-    private int width;
-    private int height;
-    private Rectangle backBounds;
-    private Vector3 touchPoint;
-    private int[] highscores;
-    private String[] players;
-
     public RecordsScreen (Arkadroid game) {
 
         width = game.width;
@@ -80,4 +71,13 @@ public class RecordsScreen extends ScreenAdapter {
         draw();
 
     }
+
+    private Arkadroid game;
+    private OrthographicCamera guiCam;
+    private int width;
+    private int height;
+    private Rectangle backBounds;
+    private Vector3 touchPoint;
+    private int[] highscores;
+    private String[] players;
 }

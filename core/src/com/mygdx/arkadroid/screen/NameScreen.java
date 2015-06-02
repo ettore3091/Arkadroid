@@ -15,17 +15,6 @@ import com.mygdx.arkadroid.model.Settings;
 
 public class NameScreen extends ScreenAdapter {
 
-    private final OrthographicCamera guiCam;
-    private final Rectangle backBounds;
-    private final Rectangle saveBounds;
-    private final Rectangle delBounds;
-    private Arkadroid game;
-    private Keyboard keyboard;
-    private SpriteBatch batch;
-    private Vector3 touchPoint;
-    private String name;
-    private int score;
-
     public NameScreen(Arkadroid game, int score) {
 
         this.game = game;
@@ -67,6 +56,7 @@ public class NameScreen extends ScreenAdapter {
                 Settings.lastPlayer = name;
                 Settings.save();
                 game.setScreen(new MainMenuScreen(game));
+                Assets.stopMusic(Assets.gameTheme);
                 this.dispose();
             }
             if(saveBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -74,6 +64,7 @@ public class NameScreen extends ScreenAdapter {
                 Settings.lastPlayer = name;
                 Settings.save();
                 game.setScreen(new RecordsScreen(game));
+                Assets.stopMusic(Assets.gameTheme);
                 this.dispose();
             }
         }
@@ -109,5 +100,22 @@ public class NameScreen extends ScreenAdapter {
         draw();
 
     }
+
+    public void dispose() {
+
+        super.dispose();
+
+    }
+
+    private final OrthographicCamera guiCam;
+    private final Rectangle backBounds;
+    private final Rectangle saveBounds;
+    private final Rectangle delBounds;
+    private Arkadroid game;
+    private Keyboard keyboard;
+    private SpriteBatch batch;
+    private Vector3 touchPoint;
+    private String name;
+    private int score;
 
 }

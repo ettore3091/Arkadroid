@@ -1,8 +1,5 @@
 package com.mygdx.arkadroid.model;
 
-/**
- * Created by Ettore on 22/04/2015.
- */
 public class PowerUp extends GameObject {
 
     public int type;

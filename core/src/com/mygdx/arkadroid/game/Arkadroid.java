@@ -21,9 +21,8 @@ import com.mygdx.arkadroid.screen.MainMenuScreen;
 public class Arkadroid extends Game {
 
     public SpriteBatch batch;
-	public int width;
+    public int width;
     public int height;
-    private MainMenuScreen mms;
 
 	@Override
 	public void create () {
@@ -59,4 +58,6 @@ public class Arkadroid extends Game {
         mms.dispose();
         batch.dispose();
     }
+
+    private MainMenuScreen mms;
 }

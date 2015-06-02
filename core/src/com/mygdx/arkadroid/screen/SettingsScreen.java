@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.arkadroid.game.Arkadroid;
 import com.mygdx.arkadroid.model.Assets;
-
-import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.arkadroid.model.Settings;
 
 public class SettingsScreen extends ScreenAdapter {
@@ -121,7 +120,7 @@ public class SettingsScreen extends ScreenAdapter {
                         break;
                 }
                 Settings.difficulty = diff;
-                Settings.lives = lives;
+                Settings.lives = Integer.parseInt(livesOptions[lives]);
                 Settings.time = Integer.parseInt(timeOptions[time]);
             }
             if (livesBounds.contains(touchPoint.x, touchPoint.y)) {
@@ -129,7 +128,7 @@ public class SettingsScreen extends ScreenAdapter {
                 lives = (lives+1)%10;
                 if(diff!=3)
                     diff=3;
-                Settings.lives = lives+1;
+                Settings.lives = Integer.parseInt(livesOptions[lives]);
                 Settings.difficulty =diff;
             }
             if (timeBounds.contains(touchPoint.x, touchPoint.y)) {

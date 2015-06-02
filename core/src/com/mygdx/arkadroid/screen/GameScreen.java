@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.arkadroid.game.Arkadroid;
 import com.mygdx.arkadroid.game.GameWorld;
 import com.mygdx.arkadroid.model.Assets;
-import com.mygdx.arkadroid.model.Bar;
 import com.mygdx.arkadroid.model.Settings;
 
 public class GameScreen extends ScreenAdapter {
@@ -23,13 +22,11 @@ public class GameScreen extends ScreenAdapter {
     private final int height;
     private final OrthographicCamera guiCam;
     private final Rectangle nextBounds;
-    private Bar bar;
     public Arkadroid game;
     private int state;
     private GameWorld world;
     private GameWorldRenderer renderer;
     private int[] highscores;
-    private String[] players;
     private Vector3 touchPoint;
 
     public GameScreen (Arkadroid game, int level) {
@@ -45,7 +42,6 @@ public class GameScreen extends ScreenAdapter {
         world = new GameWorld(game, level);
         renderer = new GameWorldRenderer(game.batch, world);
 
-        bar = new Bar(3*width/8, 2*height/16, width/4, Assets.bar.getRegionHeight()*width/4/Assets.bar.getRegionWidth());
         nextBounds = new Rectangle(width/2+20, height/20, width/2-40, height/20);
 
         touchPoint = new Vector3();
@@ -53,7 +49,6 @@ public class GameScreen extends ScreenAdapter {
         renderer = new GameWorldRenderer(game.batch, world);
 
         highscores = Settings.highscores;
-        players = Settings.players;
 
         state = GAME_READY;
         world.state = GameWorld.WORLD_STATE_READY;
@@ -122,6 +117,7 @@ public class GameScreen extends ScreenAdapter {
                 guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
                 if(nextBounds.contains(touchPoint.x, touchPoint.y)) {
                     game.setScreen(new MainMenuScreen(game));
+                    Assets.stopMusic(Assets.gameTheme);
                     this.dispose();
                 }
             }
@@ -135,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
             guiCam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
             if(nextBounds.contains(touchPoint.x, touchPoint.y)) {
                 game.setScreen(new MainMenuScreen(game));
+                Assets.stopMusic(Assets.gameTheme);
                 this.dispose();
             }
         }
@@ -233,7 +230,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
 
-        Assets.stopMusic(Assets.gameTheme);
+        super.dispose();
 
     }
 

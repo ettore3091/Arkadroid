@@ -1,5 +1,6 @@
 package com.mygdx.arkadroid.game;
 
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.arkadroid.model.Assets;
 import com.mygdx.arkadroid.model.Ball;
@@ -9,7 +10,6 @@ import com.mygdx.arkadroid.model.GreyBrick;
 import com.mygdx.arkadroid.model.Level;
 import com.mygdx.arkadroid.model.Settings;
 
-import com.badlogic.gdx.math.Polygon;
 import java.util.ArrayList;
 
 public class GameWorld {
@@ -28,9 +28,9 @@ public class GameWorld {
     private static final int BRICK_POINTS = 5;
     private static final int SECOND_POINTS = 10;
     private static final int LIFE_POINTS = 20;
+    private Arkadroid game;
     public Bar bar;
     public Ball ball = null;
-    private Arkadroid game;
     public int width;
     public int height;
 
@@ -107,21 +107,69 @@ public class GameWorld {
                 Polygon[] aoe = br.areaOfEffect(ball);
                 float cx = ball.position.x+ball.bounds.width/2;
                 float cy = ball.position.y+ball.bounds.height/2;
+                float vx = ball.velocity.x;
+                float vy = ball.velocity.y;
 
-                if(aoe[0].contains(cx, cy) || aoe[2].contains(cx, cy))
-                    x=-1;
-                else if(aoe[1].contains(cx, cy) || aoe[3].contains(cx, cy))
-                    y=-1;
+                for(int l=0; l<4; l++) {
+                    float v[] = aoe[l].getVertices();
+                    if(checkRightDirectionLine(l, vx, vy))
+                        if(pointOnLine(cx, cy, v[4], v[5], v[0], v[1])) {
+                            x = -1;
+                            y = -1;
+                            break;
+                        }
+                }
 
-                for(Polygon p: aoe) {
-                    float v[] = p.getVertices();
-                    if(pointOnLine(cx, cy, v[4], v[5], v[0], v[1])) {
-                        x=-1;
-                        y=-1;
-                        break;
+                if(x>0 && y>0) {
+                    if(checkRightDirectionTriangle(0, vx, vy)) {
+                        if (aoe[0].contains(cx, cy))
+                            x = -1;
+                    }
+                    else if (checkRightDirectionTriangle(2, vx, vy)) {
+                        if (aoe[2].contains(cx, cy))
+                            x = -1;
+                    }
+
+                    if(checkRightDirectionTriangle(1, vx, vy)) {
+                        if (aoe[1].contains(cx, cy))
+                            y = -1;
+                    }
+                    else if (checkRightDirectionTriangle(3, vx, vy)) {
+                        if (aoe[3].contains(cx, cy))
+                            y = -1;
                     }
                 }
 
+                /*
+                for(int l=0; l<4; l++) {
+                    float v[] = aoe[l].getVertices();
+                    if(pointOnLine(cx, cy, v[4], v[5], v[0], v[1]))
+                        if(checkRightDirectionLine(l, vx, vy)) {
+                            x = -1;
+                            y = -1;
+                            break;
+                        }
+                }
+
+                if(x>0 && y>0) {
+                    if(aoe[0].contains(cx, cy)) {
+                        if (checkRightDirectionTriangle(0, vx, vy))
+                            x = -1;
+                    }
+                    else if(aoe[1].contains(cx, cy)) {
+                        if (checkRightDirectionTriangle(1, vx, vy))
+                            y = -1;
+                    }
+                    else if (aoe[2].contains(cx, cy)) {
+                        if (checkRightDirectionTriangle(2, vx, vy))
+                            x = -1;
+                    }
+                    else if(aoe[3].contains(cx, cy)) {
+                        if (checkRightDirectionTriangle(3, vx, vy))
+                            y = -1;
+                    }
+                }
+                */
                 ball.hit(x, y);
                 return true;
             }
@@ -132,6 +180,40 @@ public class GameWorld {
     private boolean pointOnLine(float cx, float cy, float x1, float y1, float x2, float y2) {
 
         return cy==(y2-y1)/(x2-x1)*(cx-x1)+y1;
+
+    }
+
+    private boolean checkRightDirectionTriangle(int triangle, float vx, float vy) {
+
+        switch(triangle) {
+            case 0:
+                return vx>0;
+            case 1:
+                return vy<=0;
+            case 2:
+                return vx<0;
+            case 3:
+                return vy>=0;
+            default:
+                return false;
+        }
+
+    }
+
+    private boolean checkRightDirectionLine(int line, float vx, float vy) {
+
+        switch(line) {
+            case 0:
+                return (vx>0&&vy>0);
+            case 1:
+                return (vx>0&&vy<0);
+            case 2:
+                return (vx<0&&vy<0);
+            case 3:
+                return (vx<0&&vy>0);
+            default:
+                return false;
+        }
 
     }
 

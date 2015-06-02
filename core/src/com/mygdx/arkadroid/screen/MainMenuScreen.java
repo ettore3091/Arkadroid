@@ -98,7 +98,6 @@ public class MainMenuScreen extends ScreenAdapter {
     private Rectangle playBounds;
     private Rectangle recordsBounds;
     private Rectangle settingsBounds;
-    private Rectangle helpBounds;
     private Vector3 touchPoint;
     private float width;
     private float height;
